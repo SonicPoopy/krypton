@@ -1,3 +1,4 @@
+
 local SILENT_TEXT = Drawing.new("Text")
 SILENT_TEXT.Text = Krypton.newest.Enabled and "Silent Aim: ON" or "Silent Aim: OFF"
 SILENT_TEXT.Color = Krypton.newest.Enabled and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
@@ -79,14 +80,6 @@ function wallCheck(position, ignoreList)
 	)
 end
 
-function KnockedCheck(_)
-	return _.Character.BodyEffects["K.O"].Value ~= true
-end
-
-function GrabbedCheck(_)
-	return not _.Character:FindFirstChild("GRABBING_CONSTRAINT")
-end
-
 game:GetService("UserInputService").InputBegan:Connect(function(_, __)
 	if _.KeyCode.Name == Krypton.newest.ToggleKey and __ == false then
 		Krypton.newest.Enabled = not Krypton.newest.Enabled
@@ -146,8 +139,6 @@ function getClosestPlayer()
 	local mouse = localPlayer:GetMouse()
 	local mousePos = mouse.hit.p
 	local players = game:GetService("Players"):GetPlayers()
-	local knockedCheck = KnockedCheck
-	local grabbedCheck = GrabbedCheck
 	local wallCheck = wallCheck
 	local i = 1
 	while i <= #players do
@@ -158,11 +149,10 @@ function getClosestPlayer()
 			local distance = (rootPart.Position - mousePos).magnitude
 			if
 				distance < closestDistance
-				and knockedCheck(player)
-				and grabbedCheck(player)
 				and OnScreen
 				and wallCheck(rootPart.Position, { localPlayer, player.Character })
 			 then
+				print("target found")
 				closestPlayer = player
 				closestDistance = distance
 			end
