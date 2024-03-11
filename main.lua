@@ -152,7 +152,6 @@ function getClosestPlayer()
 				and OnScreen
 				and wallCheck(rootPart.Position, { localPlayer, player.Character })
 			 then
-				print("target found")
 				closestPlayer = player
 				closestDistance = distance
 			end
